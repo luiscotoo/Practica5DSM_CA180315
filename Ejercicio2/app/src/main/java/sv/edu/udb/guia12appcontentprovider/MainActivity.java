@@ -6,6 +6,7 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 
 public class MainActivity extends ListActivity implements
         LoaderCallbacks<Cursor> {
@@ -19,6 +20,7 @@ public class MainActivity extends ListActivity implements
         adaptador = new StudentsAdapter(this);
         setListAdapter(adaptador);
         getLoaderManager().initLoader(0, null, this);
+
     }
 
     @Override
@@ -38,4 +40,5 @@ public class MainActivity extends ListActivity implements
     public void onLoaderReset(Loader<Cursor> loader) {
         adaptador.swapCursor(null);
     }
+
 }

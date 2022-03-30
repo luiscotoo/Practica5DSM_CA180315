@@ -28,25 +28,36 @@ public class Formulario extends AppCompatActivity {
     }
     public void alta(View v) {
         try {
-            DatabaseHelper admin = new DatabaseHelper(this,"students", null, 1);
+            DatabaseHelper admin = new DatabaseHelper(this,"students.db", null, 1);
 
             SQLiteDatabase bd = admin.getWritableDatabase();
 
-            String carnet = et1.getText().toString();
-            String nombre = et2.getText().toString();
-            String apellido = et3.getText().toString();
-
-            ContentValues values = new ContentValues();
-            values.put(StudentsContract.Columnas.NOMBRE, carnet);
-            values.put(StudentsContract.Columnas.APELLIDO, apellido);
-            values.put(StudentsContract.Columnas.CARNET, carnet);
-            bd.insert(StudentsContract.STUDENTS, null, values);
-            et1.setText("");
-            et2.setText("");
-            et3.setText("");
-            Toast.makeText(this, "Se cargaron los datos del artículo",Toast.LENGTH_SHORT).show();
+            if(et1.getText().toString().isEmpty() || et2.getText().toString().isEmpty() || et3.getText().toString().isEmpty() ){
+                if (et1.getText().toString().isEmpty()){
+                    et1.setError("Ingrese un carnet");
+                }
+                if (et2.getText().toString().isEmpty()){
+                    et2.setError("Ingrese un nombre");
+                }
+                if (et3.getText().toString().isEmpty()){
+                    et3.setError("Ingrese un apellido");
+                }
+            }else{
+                String carnet = et1.getText().toString();
+                String nombre = et2.getText().toString();
+                String apellido = et3.getText().toString();
+                ContentValues values = new ContentValues();
+                values.put(StudentsContract.Columnas.CARNET, carnet);
+                values.put(StudentsContract.Columnas.NOMBRE, nombre);
+                values.put(StudentsContract.Columnas.APELLIDO, apellido);
+                bd.insert(StudentsContract.STUDENTS, null, values);
+                et1.setText("");
+                et2.setText("");
+                et3.setText("");
+                Toast.makeText(this, "Se cargaron los datos del estudiante",Toast.LENGTH_SHORT).show();
+            }
         } catch (SQLiteException e) {
-            Toast.makeText(this, "ERROR!! No se cargaron los datos del artículo" + e.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "ERROR!! No se cargaron los datos del estudiante" + e.getMessage(),Toast.LENGTH_SHORT).show();
         }
 
     }
